@@ -5,13 +5,13 @@ AI.Image=2000*imUtil.art.createSegments([nx,ny],...
     1000*rand(nx,ny);
 imProc.background.background(AI);
 
-im=double(rgb2gray(imread('../Gary_LSD/code/undistortedImage/1.png')));
-%im =AI.Image;
+%im=double(rgb2gray(imread('../Gary_LSD/code/undistortedImage/1.png')));
+im =AI.Image;
 %im=cumsum(AI.Image); im=im-repmat(sum(im,2)/ny,1,ny);
 %im = double(imread('cameraman.tif'));
 
 tic;
-segs=lsd_mex(im);
+segs=lsd_scale_mex(im,0.05);
 toc
 
 colormap bone
