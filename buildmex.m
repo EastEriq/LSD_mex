@@ -1,0 +1,1 @@
+mex('lsdmex.c', '../lsd_1.6/lsd.c', '-output', 'lsd_mex'); 
