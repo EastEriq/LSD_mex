@@ -29,12 +29,12 @@ im=double(AI.Image);
 %im = double(imread('cameraman.tif'));
 
 tic;
-segs=lsd_scale_mex(im,0.4);
+segs=lsd_scale_mex(im,0.6);
 toc
 
 colormap bone
 imagesc(im,[0,100]); axis ij;
 hold on
-plot(segs([2,4],:),segs([1,3],:),'r')
+plot(segs([2,4],:),segs([1,3],:))
 hold off
 
