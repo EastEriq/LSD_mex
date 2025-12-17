@@ -21,15 +21,18 @@ AI=imProc.image.xcorrWithPSF(AI);
 
 
 im=double(AI.Image);
+%im(im>100)=100;
 
 %im=double(rgb2gray(imread('../Gary_LSD/code/undistortedImage/1.png')));
 %im =double(AI.Image);
 %im=cumsum(AI.Image); im=im-repmat(sum(im,2)/ny,1,ny);
 %im=cumsum(AI.Image-mean(AI.Image(:)),2);
 %im = double(imread('cameraman.tif'));
+[Hxx,Hxy,Hyy,lambda1,lambda2]=hessian(im);
+im=log(-lambda2.*(lambda2<-1))*9000;
 
 tic;
-segs=lsd_scale_mex(im,0.6);
+segs=lsd_scale_mex(im,1);
 toc
 
 colormap bone
