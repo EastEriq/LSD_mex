@@ -9,7 +9,7 @@ function [Hxx,Hxy,Hyy,lambda1,lambda2]=hessian(a)
 
 Hxx = a(1:ny-2,3:nx) - 2*a(1:ny-2,2:nx-1) + a(1:ny-2,1:nx-2);
 Hyy = a(3:ny,1:nx-2) - 2*a(2:ny-1,1:nx-2) + a(1:ny-2,1:nx-2);
-Hxy = a(3:ny,3:nx) - a(3:ny,1:nx-2) - a(1:ny-2,3:nx) + a(1:ny-2,1:nx-2);
+Hxy = (a(3:ny,3:nx) - a(3:ny,1:nx-2) - a(1:ny-2,3:nx) + a(1:ny-2,1:nx-2))/4;
 
 D = sqrt((Hxx-Hyy).^2 + 4*Hxy.^2);
 lambda1 = (Hxx + Hyy + D)/2;

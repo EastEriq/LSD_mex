@@ -29,15 +29,16 @@ im=double(AI.Image);
 %im=cumsum(AI.Image-mean(AI.Image(:)),2);
 %im = double(imread('cameraman.tif'));
 [Hxx,Hxy,Hyy,lambda1,lambda2]=hessian(im);
-im=log(-lambda2.*(lambda2<-1))*9000;
+%im=log(-lambda2.*(lambda2<-1))*9000;
 
 tic;
-segs=lsd_scale_mex(im,1);
+segs=lsd_scale_mex(im,0.3);
 toc
 
 colormap bone
 imagesc(im,[0,100]); axis ij;
+%imagesc(log(-lambda2).*(lambda2<0)); axis ij; colorbar
 hold on
-plot(segs([2,4],:),segs([1,3],:))
+plot(segs([2,4],:),segs([1,3],:),'LineWidth',2)
 hold off
 

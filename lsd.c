@@ -727,8 +727,8 @@ static image_double gaussian_sampler( image_double in, double scale,
   return out;
 }
 
-#include "gradient.c"
-//#include "hessian.c"
+//#include "gradient.c"
+#include "hessian.c"
 
 /*----------------------------------------------------------------------------*/
 /** Is point (x,y) aligned to angle theta, up to precision 'prec'?
