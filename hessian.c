@@ -25,7 +25,7 @@ static image_double ll_angle( image_double in, double threshold,
 {
   image_double g;
   unsigned int n,p,x,y,adrm,adr,adrp,i;
-  double A,B,C,D,E,F,G,H,I,Hxx,Hxy,Hyy,Discr,lambda1,lambda2,gx,gy,norm;
+  double A,B,C,D,E,F,G,H,I,E2,Hxx,Hxy,Hyy,Discr,lambda1,lambda2,gx,gy,norm;
   /* the rest of the variables are used for pseudo-ordering
      the gradient magnitude values */
   int list_count = 0;
@@ -73,12 +73,12 @@ static image_double ll_angle( image_double in, double threshold,
   for(y=0;y<n;y++) g->data[p*y+p-1]   = NOTDEF; // right
 
   /* compute gradient on the remaining pixels */
-  for(x=1;x<p-1;x++)
-    for(y=1;y<n-1;y++)
+  for(y=1;y<n-1;y++)
+    for(x=1;x<p-1;x++)
       {
-        adrm = (y-1)*p+x;
         adr = y*p+x;
-        adrp = (y+1)*p+x;
+        adrm = adr-p;
+        adrp = adr+p;
 
         /*
            Hessian computation using 3x3 pixel window:
@@ -108,8 +108,9 @@ static image_double ll_angle( image_double in, double threshold,
         H = in->data[adrp];
         I = in->data[adrp+1];
         
-        Hxx= D -2*E + F;
-        Hyy= B -2*E + H;
+        E2 = 2*E;
+        Hxx= D -E2 + F;
+        Hyy= B -E2 + H;
         Hxy= (A - G - C + I)/4;
         Discr = sqrt((Hxx-Hyy)*(Hxx-Hyy) +4*Hxy*Hxy);
 
