@@ -115,10 +115,10 @@ static image_double ll_angle( image_double in, double threshold,
 
         lambda1 = (Hxx + Hyy +Discr)/2;
         lambda2 = (Hxx + Hyy -Discr)/2;
-        gy = lambda2-Hxx; /* gradient x component */
-        gx = Hxy; /* gradient y component */
+        gx = Hxy; /* gradient x component */
+        gy = lambda2-Hxx; /* gradient y component */
 
-        if( lambda2 < 0. && lambda1 <5) // FIXME empiric threshold
+        if( lambda2 < 0. && lambda1 <15) // FIXME empiric threshold
 //            norm = log(-lambda2); /* "gradient norm" */
             norm = -lambda2; /* "gradient norm" */
         else
@@ -127,7 +127,7 @@ static image_double ll_angle( image_double in, double threshold,
         (*modgrad)->data[adr] = norm; /* store gradient norm */
 
 //        if( norm <= threshold ) /* norm too small, gradient no defined */
-        if( norm <= 1 ) /* FIXME, empirical for log(-lambda2) */
+        if( norm <= 5 ) /* FIXME, empirical for log(-lambda2) */
           g->data[adr] = NOTDEF; /* gradient angle not defined */
         else
           {

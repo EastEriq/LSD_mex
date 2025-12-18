@@ -32,7 +32,7 @@ im=double(AI.Image);
 %im=log(-lambda2.*(lambda2<-1))*9000;
 
 tic;
-segs=lsd_scale_mex(im,0.3);
+segs=lsd_scale_mex(im,0.4);
 toc
 
 colormap bone
