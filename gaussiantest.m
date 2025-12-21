@@ -1,4 +1,4 @@
-[X,Y]=meshgrid(-18:18,-18:18);
+[X,Y]=meshgrid(-8:8,-8:8);
 sigma=2;
 a=300*exp(-(X.^2+Y.^2)/sigma^2);
 b=eye(size(a));

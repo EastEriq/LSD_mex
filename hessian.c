@@ -24,7 +24,7 @@ static image_double ll_angle( image_double in, double threshold,
                               image_double * modgrad, unsigned int n_bins )
 {
   image_double g;
-  unsigned int n,p,x,y,adrm,adr,adrp,i;
+  unsigned int n,p,x,y,adrm,adr,adrp,i,yp;
   double A,B,C,D,E,F,G,H,I,E2,Hxx,Hxy,Hyy,Discr,lambda1,lambda2,gx,gy,norm;
   /* the rest of the variables are used for pseudo-ordering
      the gradient magnitude values */
@@ -74,9 +74,20 @@ static image_double ll_angle( image_double in, double threshold,
 
   /* compute gradient on the remaining pixels */
   for(y=1;y<n-1;y++)
+    {
+    yp = y*p;
+    adr = yp+1;
+    adrm = adr-p;
+    adrp = adr+p;
+    B = in->data[adrm];
+    C = in->data[adrm+1];
+    E = in->data[adr];
+    F = in->data[adr+1];
+    H = in->data[adrp];
+    I = in->data[adrp+1];
     for(x=1;x<p-1;x++)
       {
-        adr = y*p+x;
+        adr = yp+x;
         adrm = adr-p;
         adrp = adr+p;
 
@@ -98,6 +109,7 @@ static image_double ll_angle( image_double in, double threshold,
 
 // some of these values could be carried out from one iteration
 //  to the next, without seeking the whole array
+/*
         A = in->data[adrm-1];
         B = in->data[adrm];
         C = in->data[adrm+1];
@@ -107,6 +119,11 @@ static image_double ll_angle( image_double in, double threshold,
         G = in->data[adrp-1];
         H = in->data[adrp];
         I = in->data[adrp+1];
+*/
+        A=B; B=C; C = in->data[adrm+1];
+        D=E; E=F; F = in->data[adr+1];
+        G=H; H=I; I = in->data[adrp+1];
+
         
         E2 = 2*E;
         Hxx= D -E2 + F;
@@ -119,8 +136,8 @@ static image_double ll_angle( image_double in, double threshold,
         gx = Hxy; /* gradient x component */
         gy = lambda2-Hxx; /* gradient y component */
 
-        if( lambda2 < 0. && lambda1 <15) // FIXME empiric threshold
-//            norm = log(-lambda2); /* "gradient norm" */
+        if( lambda2 < 0. && lambda1/(lambda1-lambda2) <0.1) // FIXME empiric threshold
+//            norm = sqrt(-lambda2); /* "gradient norm", compresses dynamics but takes time */
             norm = -lambda2; /* "gradient norm" */
         else
             norm = 0;
@@ -128,7 +145,7 @@ static image_double ll_angle( image_double in, double threshold,
         (*modgrad)->data[adr] = norm; /* store gradient norm */
 
 //        if( norm <= threshold ) /* norm too small, gradient no defined */
-        if( norm <= 5 ) /* FIXME, empirical for log(-lambda2) */
+        if( norm <= 0.1 ) /* FIXME, empirical */
           g->data[adr] = NOTDEF; /* gradient angle not defined */
         else
           {
@@ -139,6 +156,7 @@ static image_double ll_angle( image_double in, double threshold,
             if( norm > max_grad ) max_grad = norm;
           }
       }
+  }
 
   /* compute histogram of gradient values */
   for(x=0;x<p-1;x++)

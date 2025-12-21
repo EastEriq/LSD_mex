@@ -13,9 +13,9 @@ AI=imProc.background.backVar(AI,'Block',[128 128], 'Method',...
 AI=imProc.image.subBackDivideStd(AI);
 
 AI.ImageData.Image = imUtil.streaks.addLineToImage(AI.ImageData.Image, [1345,678,998,109],...
-                                   200, AI.PSFData.Data);
+                                   100, AI.PSFData.Data);
 AI.ImageData.Image = imUtil.streaks.addLineToImage(AI.ImageData.Image, [1845,478,1098,509],...
-                                   250, AI.PSFData.Data);
+                                   100, AI.PSFData.Data);
 
 AI=imProc.image.xcorrWithPSF(AI);
 
@@ -36,7 +36,7 @@ segs=lsd_scale_mex(im,0.4);
 toc
 
 colormap bone
-imagesc(im,[0,100]); axis ij;
+imagesc(im,[0,50]); axis ij;
 %imagesc(log(-lambda2).*(lambda2<0)); axis ij; colorbar
 hold on
 plot(segs([2,4],:),segs([1,3],:),'LineWidth',2)
