@@ -1,4 +1,4 @@
-function [Hxx,Hxy,Hyy,lambda1,lambda2]=hessian(a)
+function [Hxx,Hxy,Hyy,lambda1,lambda2,phi]=hessian(a)
 % compute the hessian matrix of an equispaced image matrix, and its 
 %  eigenvalues, by central finite differences
 % Neglect edges for simplicity - h, lambda1,2 are two rows and two columns
@@ -14,3 +14,5 @@ Hxy = (a(3:ny,3:nx) - a(3:ny,1:nx-2) - a(1:ny-2,3:nx) + a(1:ny-2,1:nx-2))/4;
 D = sqrt((Hxx-Hyy).^2 + 4*Hxy.^2);
 lambda1 = (Hxx + Hyy + D)/2;
 lambda2 = (Hxx + Hyy - D)/2;
+
+phi=atan2(Hxy,lambda2-Hxx);
