@@ -13,9 +13,9 @@ AI=imProc.background.backVar(AI,'Block',[128 128], 'Method',...
 AI=imProc.image.subBackDivideStd(AI);
 
 AI.ImageData.Image = imUtil.streaks.addLineToImage(AI.ImageData.Image, [1345,678,998,109],...
-                                   30, AI.PSFData.Data);
+                                   10, AI.PSFData.Data);
 AI.ImageData.Image = imUtil.streaks.addLineToImage(AI.ImageData.Image, [1845,478,1098,509],...
-                                   20, AI.PSFData.Data);
+                                   5, AI.PSFData.Data);
 
 AI=imProc.image.xcorrWithPSF(AI);
 
