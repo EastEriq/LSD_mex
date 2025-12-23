@@ -72,7 +72,7 @@ static image_double ll_angle( image_double in, double threshold,
   for(x=0;x<p;x++) g->data[(n-1)*p+x] = NOTDEF; // down
   for(y=0;y<n;y++) g->data[p*y+p-1]   = NOTDEF; // right
 
-  /* compute gradient on the remaining pixels */
+  /* compute the hessian on the remaining pixels */
   for(y=1;y<n-1;y++)
     {
     yp = y*p;
@@ -136,7 +136,7 @@ static image_double ll_angle( image_double in, double threshold,
         gx = Hxy; /* gradient x component */
         gy = lambda2-Hxx; /* gradient y component */
 
-        if( lambda2 < 0. && lambda1/(lambda1-lambda2) <0.1) // FIXME empiric threshold
+        if( lambda2 < 0. && 10*lambda1<-lambda2) // FIXME empiric threshold
 //            norm = sqrt(-lambda2); /* "gradient norm", compresses dynamics but takes time */
             norm = -lambda2; /* "gradient norm" */
         else
@@ -145,7 +145,7 @@ static image_double ll_angle( image_double in, double threshold,
         (*modgrad)->data[adr] = norm; /* store gradient norm */
 
 //        if( norm <= threshold ) /* norm too small, gradient no defined */
-        if( norm <= 0.1 ) /* FIXME, empirical */
+        if( norm <= threshold/100 ) /* FIXME, empirical */
           g->data[adr] = NOTDEF; /* gradient angle not defined */
         else
           {
