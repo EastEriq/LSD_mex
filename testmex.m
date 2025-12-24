@@ -13,9 +13,9 @@ AI=imProc.background.backVar(AI,'Block',[128 128], 'Method',...
 AI=imProc.image.subBackDivideStd(AI);
 
 AI.ImageData.Image = imUtil.streaks.addLineToImage(AI.ImageData.Image, [1345,678,998,109],...
-                                   10, AI.PSFData.Data);
+                                   20, AI.PSFData.Data);
 AI.ImageData.Image = imUtil.streaks.addLineToImage(AI.ImageData.Image, [1845,478,1098,509],...
-                                   5, AI.PSFData.Data);
+                                   20, AI.PSFData.Data);
 
 AI=imProc.image.xcorrWithPSF(AI);
 
@@ -34,6 +34,8 @@ im=double(AI.Image);
 tic;
 segs=lsd_scale_mex(im,1/3);
 toc
+
+segs=merge_segments(segs);
 
 colormap bone
 imagesc(im,[0,50]); axis ij;
