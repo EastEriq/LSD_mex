@@ -22,7 +22,7 @@ function merged=merge_segments(segs,offline,angle,score)
 arguments
     segs double
     offline = 2;
-    angle  = 1*pi/180;
+    angle  = 2*pi/180;
     score = -Inf;
 end
 
@@ -50,7 +50,7 @@ while ~isempty(segs)
     L1=sqrt((segs(3,:)-segs(1,:)).^2 + (segs(4,:)-segs(2,:)).^2);
     L2=sqrt((segs(1,:)-testsegment(1)).^2 + (segs(2,:)-testsegment(2)).^2);
     % L2(1) is always 0
-    L3=sqrt((segs(1,:)-testsegment(3)).^2 + (segs(2,:)-testsegment(4)).^2);
+    L3=sqrt((segs(3,:)-testsegment(1)).^2 + (segs(4,:)-testsegment(2)).^2);
     s1=( (testsegment(3)-testsegment(1))*(testsegment(2)-segs(2,:)) - ...
          (testsegment(4)-testsegment(2))*(testsegment(1)-segs(1,:)) )./(L1(1)*L2);
     s1(1)=0;

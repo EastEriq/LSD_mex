@@ -1,4 +1,4 @@
-testplot=true;
+testplot=~true;
 nimages=5;
 nimplants=100;
 maxstreaks=3;
@@ -30,7 +30,7 @@ for i=1:nimages
     % implant random streaks
     for j=1:nimplants
         AI1=AI.copy;
-        nstreaks=floor(rand*maxstreaks+1);
+        nstreaks=floor(rand*(maxstreaks+1));
         streakcoords = [(rand(nstreaks,2)-0.25)*2*size(AI1.Image,1),...
                         (rand(nstreaks,2)-0.25)*2*size(AI1.Image,2)];
         streakstrength = rand(nstreaks,1)*1000; % maybe better log distribution
@@ -55,9 +55,13 @@ for i=1:nimages
         l=(i-1)*nimages+j;
         detectiontable.folder(l) = imagefiles(ifile).folder;
         detectiontable.image(l) = imagefiles(ifile).name;
-        detectiontable.implanted(l).coords = streakcoords(:,[1 3 2 4]);
-        detectiontable.implanted(l).strength = streakstrength;
-        detectiontable.detected(l).coords = segs';
+        if ~isempty(streakcoords)
+            detectiontable.implanted(l).coords = streakcoords(:,[1 3 2 4]);
+            detectiontable.implanted(l).strength = streakstrength;
+        end
+        if ~isempty(segs)
+            detectiontable.detected(l).coords = segs([2 1 4 3])';
+        end
         
         % plot for visual feedback
         if testplot
@@ -66,6 +70,8 @@ for i=1:nimages
             hold on
             plot(segs([2,4],:),segs([1,3],:),'LineWidth',2)
             hold off
+            title(num2str(l))
+            pause
             drawnow
         end
         
